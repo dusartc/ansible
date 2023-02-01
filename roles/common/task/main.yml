@@ -7,7 +7,7 @@
   package:
           name: sudo
 
-# install rsyslog
+# install filebeat
 # install glpi-agent
 # exporter prometheus
 # set sudoer
@@ -17,16 +17,16 @@
 - name: install ssh key
   authorized_key: 
         user=dwilliam
-        key="{{ lookup('file', '/home/watchtower/ansible/roles/common/file/pubwill') }}" 
+        key="{{ lookup('file', '/home/watchtower/ansible/roles/common/file/william.pub') }}" 
         state=present
 
 - name: install ssh key
   authorized_key: user=dusartc
-                  key="{{ lookup('file', '/home/watchtower/ansible/roles/common/file/pubcle') }}" 
+                  key="{{ lookup('file', '/home/watchtower/ansible/roles/common/file/clement.pub') }}" 
                   state=present
 
 - name: install ssh key
   authorized_key: user=dromaric
-                  key="{{ lookup('file', '/home/watchtower/ansible/roles/common/file/pubrom') }}" 
+                  key="{{ lookup('file', '/home/watchtower/ansible/roles/common/file/romaric.pub') }}" 
                   state=present
 # set ntp
