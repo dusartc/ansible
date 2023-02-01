@@ -1,0 +1,32 @@
+# roles/common/tasks/main.yml
+- name: install vim
+  package:
+          name: vim
+
+- name: install sudo
+  package:
+          name: sudo
+
+# install rsyslog
+# install glpi-agent
+# exporter prometheus
+# set sudoer
+# set ssh key
+#ssh-addkey.yml
+
+- name: install ssh key
+  authorized_key: 
+        user=dwilliam
+        key="{{ lookup('file', '/home/watchtower/ansible/roles/common/file/pubwill') }}" 
+        state=present
+
+- name: install ssh key
+  authorized_key: user=dusartc
+                  key="{{ lookup('file', '/home/watchtower/ansible/roles/common/file/pubcle') }}" 
+                  state=present
+
+- name: install ssh key
+  authorized_key: user=dromaric
+                  key="{{ lookup('file', '/home/watchtower/ansible/roles/common/file/pubrom') }}" 
+                  state=present
+# set ntp

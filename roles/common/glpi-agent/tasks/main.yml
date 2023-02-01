@@ -1,0 +1,58 @@
+---
+# .. vim: foldmarker=[[[,]]]:foldmethod=marker
+#
+# tasks file for glpi_agent
+
+# Include extra vars file [[[1
+- name: Include vars file per OS
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - '{{ ansible_distribution }}.yml'
+        - '{{ ansible_os_family }}.yml'
+      paths:
+        - 'vars'
+
+# Manage fusioninventory related packages [[[1
+- name: Ensure to remove Fusioninventory agent packages
+  ansible.builtin.package:
+    name: '{{ glpi_agent__fusioninventory_agent_packages | flatten }}'
+    state: 'absent'
+  register: ga_fi_pkg_result
+  until: ga_fi_pkg_result is succeeded
+  when:
+    - glpi_agent__enabled | bool
+    - glpi_agent__fusioninventory_agent_state == "absent"
+
+# Specific tasks per OS [[[1
+- name: Include tasks per OS
+  ansible.builtin.include_tasks: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - '{{ ansible_distribution }}.yml'
+        - '{{ ansible_os_family }}.yml'
+
+# Manage agent configuration file [[[1
+- name: Create GLPI Agent configuration file
+  ansible.builtin.template:
+    src:   '{{ glpi_agent__conf_file_src }}'
+    dest:  '{{ glpi_agent__conf_file_dest }}'
+    owner: root
+    group: root
+    mode:  '0644'
+  notify: ['Restart glpi-agent service']
+  when: glpi_agent__enabled | bool
+
+# Manage glpi-agent service [[[1
+- name: Manage GLPI Agent service
+  ansible.builtin.systemd:
+    state:   '{{ "started" if (glpi_agent__enabled | bool) else "stopped" }}'
+    name:    'glpi-agent'
+    enabled: '{{ glpi_agent__enabled | bool }}'
+  async: 10
+  poll:  2
+  when:
+    - not ansible_check_mode
+    - ansible_service_mgr == 'systemd'

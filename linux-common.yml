@@ -1,0 +1,14 @@
+# Install base linux
+---
+
+# base
+- hosts: all
+  become: true
+  tasks:
+          - name: install vim
+            package:
+                    name: vim
+          - name: install zsh
+            package:
+                    name: zsh
+
