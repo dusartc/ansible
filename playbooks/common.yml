@@ -3,7 +3,7 @@
 
 # base
 - hosts: all
-  become: true
+  remote_user: mynthos
   roles:
           - common
 
