@@ -17,7 +17,7 @@
 
       - name: copy authorized key
         ansible.builtin.copy:
-          src: /home/watchtower/ansible/roles/first/files/sudoers/01-watchtower
+          src: /home/watchtower/ansible/roles/first/files/sudoers.d/01-watchtower
           dest: /home/watchtower/.ssh/authorized_keys
           owner: watchtower
           group: watchtower
