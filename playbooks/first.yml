@@ -1,13 +1,13 @@
 # Play creation user watchtower
 ---
 
-- host: clean
-  become_user: mynthos
-  private_key_file: 
+- hosts: clean
+  remote_user: mynthos
+  become: true
   tasks:
           - name: creer user watchtower
-            user: watchtower
-            state: present
-            groups: sudo
-            append: yes
-            private_key_file: 
+            user: 
+                name: watchtower
+                state: present
+                groups: sudo
+                append: yes
