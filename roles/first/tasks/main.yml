@@ -1,0 +1,28 @@
+
+      - name: creer user watchtower
+        become: true
+        user: 
+            name: watchtower
+            state: present
+            groups: sudo
+            append: yes
+      
+      - name: copy authorized key
+        ansible.builtin.copy:
+          src: /home/watchtower/ansible/roles/first/files/authorized_keys
+          dest: /home/watchtower/.ssh/authorized_keys
+          owner: watchtower
+          group: watchtower
+          mode: '0600'
+
+      - name: copy authorized key
+        ansible.builtin.copy:
+          src: /home/watchtower/ansible/roles/first/files/sudoers/01-watchtower
+          dest: /home/watchtower/.ssh/authorized_keys
+          owner: watchtower
+          group: watchtower
+          mode: u=r,g=r
+
+    
+
+  

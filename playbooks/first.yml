@@ -3,11 +3,6 @@
 
 - hosts: clean
   remote_user: mynthos
-  become: true
-  tasks:
-          - name: creer user watchtower
-            user: 
-                name: watchtower
-                state: present
-                groups: sudo
-                append: yes
+  roles:
+    - first
+  
