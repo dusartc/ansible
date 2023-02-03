@@ -3,6 +3,7 @@
 
 - hosts: clean
   remote_user: mynthos
+  become: true
   roles:
     - first
   
