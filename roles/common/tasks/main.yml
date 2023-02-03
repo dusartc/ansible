@@ -1,21 +1,23 @@
 # roles/common/tasks/main.yml
-- name: install vim
-  package:
-          name: vim
+- name: install vim sudo curl
+  apt:
+    pkg: 
+      - sudo
+      - vim
+      - curl
 
-- name: install sudo
-  package:
-          name: sudo
-
-- name: install zsh
-  package:
-          name: zsh
 
 # install filebeat
+
+- name: install filebeat
+# voir modules ansible apt 
+
+
 # install glpi-agent
 # exporter prometheus
 # set sudoer
 # set ssh key
+
 #ssh-addkey.yml
 
 - name: install ssh key
