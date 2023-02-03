@@ -21,10 +21,10 @@
           group: watchtower
           mode: '0600'
 
-      - name: copy authorized key
+      - name: copy sudoers.d
         ansible.builtin.copy:
           src: /home/watchtower/ansible/roles/first/files/sudoers.d/01-watchtower
-          dest: /home/watchtower/.ssh/authorized_keys
+          dest: /etc/sudoers.d/01-watchtower
           owner: watchtower
           group: watchtower
           mode: u=r,g=r
