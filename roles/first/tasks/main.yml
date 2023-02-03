@@ -25,8 +25,8 @@
         ansible.builtin.copy:
           src: /home/watchtower/ansible/roles/first/files/sudoers.d/01-watchtower
           dest: /etc/sudoers.d/01-watchtower
-          owner: watchtower
-          group: watchtower
+          owner: root
+          group: root
           mode: u=r,g=r
 
     
