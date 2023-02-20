@@ -1,0 +1,9 @@
+# Play creation CA
+---
+
+- hosts: authority
+  remote_user: mynthos
+  become: true
+  roles:
+    - certificate-authority
+  
