@@ -8,4 +8,14 @@
     name: authority
     state: present
 
+- name: mkdir easy-rsa
+  become: authority
+  ansible.builtin.file:
+    path: /home/authority/easy-rsa
+    state: directory
+    owner: authority
+    group: authority
+    mode: '0700'
 
+- name: ln
+  ansible.builtin.command: ln -s /usr/share/easy-rsa/* /home/authority/easy-rsa/
