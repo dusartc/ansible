@@ -2,6 +2,7 @@
   apt:
     pkg:
       - easy-rsa
+      - acl
         
 - name: create user authority
   user:
@@ -9,7 +10,8 @@
     state: present
 
 - name: mkdir easy-rsa
-  become: authority
+  become: true
+  become_user: authority
   ansible.builtin.file:
     path: /home/authority/easy-rsa
     state: directory
