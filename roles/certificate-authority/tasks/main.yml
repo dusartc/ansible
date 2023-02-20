@@ -20,4 +20,19 @@
     mode: '0700'
 
 - name: ln
-  ansible.builtin.command: ln -s /usr/share/easy-rsa/* /home/authority/easy-rsa/
+  ansible.builtin.command: bash -c "ln -s /usr/share/easy-rsa/* /home/authority/easy-rsa/"
+
+- name: init
+  ansible.builtin.command: /home/authority/easy-rsa/./easyrsa init-pki
+
+- name: copy vars
+  ansible.builtin.copy:
+    src: /home/watchtower/ansible/roles/certifiate-authority/files/vars
+    dest: /home/authority/easy-rsa/vars
+    owner: authority
+    group: authority
+    mode: '0700'
+
+    # interactive
+    #- name: build ca
+  #  ansible.builtin.command: /home/authority/easy-rsa/./easyrsa build-ca

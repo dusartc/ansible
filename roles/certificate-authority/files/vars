@@ -1,0 +1,8 @@
+set_var EASYRSA_REQ_COUNTRY     "FR"
+set_var EASYRSA_REQ_PROVINCE    "NORD"
+set_var EASYRSA_REQ_CITY        "LILLE"
+set_var EASYRSA_REQ_ORG         "GastonMedilab"
+set_var EASYRSA_REQ_EMAIL       "admin@gaston.medilab.fr"
+set_var EASYRSA_REQ_OU          "Community"
+set_var EASYRSA_ALGO            "ec"
+set_var EASYRSA_DIGEST          "sha512"
