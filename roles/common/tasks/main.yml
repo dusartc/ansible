@@ -36,3 +36,11 @@
                   key="{{ lookup('file', '/home/watchtower/ansible/roles/common/files/romaric.pub') }}" 
                   state=present
 # set ntp
+# install ca
+- name: install ca
+  ansible.builtin.copy:
+    src: /home/watchtower/ansible/roles/common/files/ca.crt
+    dest: /usr/local/share/ca-certificates/gaston.medilab.crt
+
+- name: update ca
+  ansible.builtin.command: sudo update-ca-certificates
