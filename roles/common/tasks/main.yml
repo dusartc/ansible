@@ -9,7 +9,7 @@
 
 # install filebeat
 
-- name: install filebeat
+#- name: install filebeat
 # voir modules ansible apt 
 
 

@@ -1,12 +1,11 @@
 - name: install easy-rsa
-    apt:
-      pkg:
-        - easy-rsa
+  apt:
+    pkg:
+      - easy-rsa
         
 - name: create user authority
   user:
     name: authority
     state: present
-    append: yes
 
 

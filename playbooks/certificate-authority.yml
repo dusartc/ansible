@@ -2,7 +2,7 @@
 ---
 
 - hosts: authority
-  remote_user: mynthos
+  remote_user: watchtower
   become: true
   roles:
     - certificate-authority
