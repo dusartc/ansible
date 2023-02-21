@@ -1,0 +1,9 @@
+# Play creation certificate for web server
+---
+
+- hosts: web-test
+  remote_user: watchtower
+  become: true
+  roles:
+    - web-cert
+  

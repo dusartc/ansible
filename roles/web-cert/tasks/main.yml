@@ -1,0 +1,25 @@
+- name: install openssl
+  apt:
+    pkg:
+      - openssl
+
+- name: gen rsa key
+  become: true
+  ansible.builtin.command: openssl genrsa -out /etc/ssl/private/web.key
+
+- name: gen req
+  become: true
+  ansible.builtin.command: openssl req -new -key /etc/ssl/private/web.key -out /tmp/web.req -subj /C=FR/ST=NORD/L=LILLE/O=GastonMedilab/OU=Community/CN={{ hostname }}
+
+- name: scp to CA
+  delegate_to: ca.azeroth.wow
+  ansible.builtin.copy:
+    src: /tmp/web.req
+    dest: /tmp/web.req
+    mode: '0644'
+
+- name: import req
+  delegate_to: ca.azeroth.wow
+  become: true
+  become_user: authority
+  ansible.builtin.command: /home/authority/easy-rsa/./easyrsa import-req /tmp/web.req {{ hostname }}
