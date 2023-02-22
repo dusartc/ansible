@@ -2,6 +2,7 @@
   apt:
     pkg:
       - openssl
+      - rsync
 
 - name: gen rsa key
   become: true
@@ -9,14 +10,21 @@
 
 - name: gen req
   become: true
-  ansible.builtin.command: openssl req -new -key /etc/ssl/private/web.key -out /tmp/web.req -subj /C=FR/ST=NORD/L=LILLE/O=GastonMedilab/OU=Community/CN={{ hostname }}
+  ansible.builtin.command: openssl req -new -key /etc/ssl/private/web.key -out /tmp/{{ hostname }}.req -subj /C=FR/ST=NORD/L=LILLE/O=GastonMedilab/OU=Community/CN={{ hostname }}
+
+- name: droit
+  become: true
+  ansible.builtin.file: 
+    path: /tmp/{{ hostname }}.req
+    mode: '0644'
 
 - name: scp to CA
-  delegate_to: ca.azeroth.wow
-  ansible.builtin.copy:
-    src: /tmp/web.req
+  synchronize:
+    src: /tmp/{{ hostname }}.req
     dest: /tmp/web.req
-    mode: '0644'
+    mode: pull
+  delegate_to: ca.azeroth.wow
+  #ssh-agent??
 
 - name: import req
   delegate_to: ca.azeroth.wow
