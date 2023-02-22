@@ -1,0 +1,18 @@
+# Play creation certificate for web server
+---
+
+- hosts: ha
+  remote_user: watchtower
+  become: true
+  roles:
+    - haproxy
+  vars:
+    web_servers:
+      - "10.32.42.3:80"
+      - "10.32.42.4:80"
+  
+- hosts: nginx
+  remote_user: watchtower
+  become: true
+  roles:
+    - nginx

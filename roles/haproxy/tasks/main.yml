@@ -1,0 +1,32 @@
+- name: install easy-rsa
+  apt:
+    pkg:
+      - haproxy
+
+- name: Generate haproxy.cfg conf
+  template:
+    src: "haproxy.cfg.j2"
+    dest: "/etc/haproxy.cfg"
+    mode: 0644
+        
+- name: copy certificate
+  ansible.bultin.copy:
+    src: haproxy.crt
+    dest: /etc/haproxy.crt
+    owner: root
+    group: root
+    mode: 0644
+
+- name: copy certificate key
+  ansible.builtin.copy:
+    src: haproxy.crt.key
+    dest: /etc/haproxy.crt.key
+    owner: root
+    group: root
+    mode: 0644
+
+- name: restart haproxy
+  ansible.builtin.service:
+    name: haproxy
+    state: restarted
+    enabled: true
