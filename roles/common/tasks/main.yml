@@ -1,4 +1,14 @@
 # roles/common/tasks/main.yml
+- name: add apt key from elastic
+  ansible.builtin.apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+- name: add elastic repository
+  ansible.builtin.apt_repository:
+    repo: deb [signed-by=/usr/share/keyrings/elastic.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main
+    state: present
+
 - name: install vim sudo curl
   become: true
   apt:
