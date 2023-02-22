@@ -1,14 +1,4 @@
 # roles/common/tasks/main.yml
-- name: add apt key from elastic
-  ansible.builtin.apt_key:
-    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
-    state: present
-
-- name: add elastic repository
-  ansible.builtin.apt_repository:
-    repo: deb [signed-by=/usr/share/keyrings/elastic.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main
-    state: present
-
 - name: install vim sudo curl
   become: true
   apt:
@@ -17,11 +7,25 @@
       - vim
       - curl
       - wget
+      - gpg
+
+- name: add apt key from elastic
+  ansible.builtin.shell: "test -f /usr/share/keyrings/elastic.gpg || curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch |sudo gpg --dearmor -o /usr/share/keyrings/elastic.gpg"
+
+- name: add elastic repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: deb [signed-by=/usr/share/keyrings/elastic.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main
+    state: present
+
+- name: install filebeat
+  become: true
+  apt:
+    pkg: 
       - filebeat
 
-
-# install filebeat
 - name: copy conf
+  become: true
   ansible.builtin.copy:
     src: filebeat.yml
     dest: /etc/filebeat/filebeat.yml
@@ -44,9 +48,10 @@
   ansible.builtin.command: filebeat setup -E output.logstash.enabled=false -E output.elasticsearch.hosts=['10.32.70.3:9200'] -E setup.kibana.host=10.32.70.3:5601
 
 - name: restart filebeat
+  become: true
   ansible.builtin.service:
     name: filebeat
-    state: restarted
+    state: started
     enabled: true
 
 # voir modules ansible apt 
