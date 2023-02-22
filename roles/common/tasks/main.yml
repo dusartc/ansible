@@ -7,11 +7,38 @@
       - vim
       - curl
       - wget
+      - filebeat
 
 
 # install filebeat
+- name: copy conf
+  ansible.builtin.copy:
+    src: filebeat.yml
+    dest: /etc/filebeat/filebeat.yml
+    mode: 0644
 
-#- name: install filebeat
+- name: config vers logstash 1
+  become: true
+  ansible.builtin.command: filebeat modules enable system
+
+- name: config vers logstash 2
+  become: true
+  ansible.builtin.command: sudo filebeat setup --pipelines --modules system
+
+- name: config vers logstash 3
+  become: true
+  ansible.builtin.command: filebeat setup --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["10.32.70.3:9200"]'
+
+- name: config vers logstash 4
+  become: true
+  ansible.builtin.command: filebeat setup -E output.logstash.enabled=false -E output.elasticsearch.hosts=['10.32.70.3:9200'] -E setup.kibana.host=10.32.70.3:5601
+
+- name: restart filebeat
+  ansible.builtin.service:
+    name: filebeat
+    state: restarted
+    enabled: true
+
 # voir modules ansible apt 
 
 
