@@ -10,7 +10,7 @@
     mode: 0644
         
 - name: copy certificate
-  ansible.bultin.copy:
+  ansible.builtin.copy:
     src: haproxy.crt
     dest: /etc/haproxy.crt
     owner: root
