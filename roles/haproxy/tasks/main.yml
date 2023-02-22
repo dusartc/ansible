@@ -1,4 +1,4 @@
-- name: install easy-rsa
+- name: install haproxy
   apt:
     pkg:
       - haproxy
