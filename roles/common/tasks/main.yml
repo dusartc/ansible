@@ -5,6 +5,7 @@
       - sudo
       - vim
       - curl
+      - wget
 
 
 # install filebeat
@@ -14,6 +15,17 @@
 
 
 # install glpi-agent
+- name: copy agent to /tmp
+  ansible.builtin.copy:
+    src: glpi-agent-1.4-linux-installer
+    dest: /tmp/glpi-agent
+    mode: 0755
+ 
+- name: install glpi agent
+  become: true
+  ansible.builtin.command: perl /tmp/glpi-agent -S -s http://glpi.azeroth.wow/glpi/front/inventory.php --runnow
+
+
 # exporter prometheus
 # set sudoer
 # set ssh key
@@ -44,3 +56,4 @@
 
 - name: update ca
   ansible.builtin.command: sudo update-ca-certificates
+
