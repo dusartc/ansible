@@ -2,7 +2,7 @@
 ---
 
 # base
-- hosts: all
+- hosts: www2.azeroth.wow
   remote_user: mynthos
   roles:
           - common

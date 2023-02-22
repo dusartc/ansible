@@ -1,5 +1,6 @@
 # roles/common/tasks/main.yml
 - name: install vim sudo curl
+  become: true
   apt:
     pkg: 
       - sudo
@@ -17,7 +18,7 @@
 # install glpi-agent
 - name: copy agent to /tmp
   ansible.builtin.copy:
-    src: glpi-agent-1.4-linux-installer
+    src: glpi-agent-1.4-linux-installer.pl
     dest: /tmp/glpi-agent
     mode: 0755
  
