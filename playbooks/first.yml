@@ -1,7 +1,7 @@
 # Play creation user watchtower
 ---
 
-- hosts: clean
+- hosts: elk.azeroth.wow
   remote_user: mynthos
   become: true
   roles:
