@@ -4,28 +4,32 @@
       - haproxy
 
 - name: Generate haproxy.cfg conf
+  become: true
   template:
     src: "haproxy.cfg.j2"
-    dest: "/etc/haproxy.cfg"
+    dest: /etc/haproxy/haproxy.cfg
     mode: 0644
         
 - name: copy certificate
+  become: true
   ansible.builtin.copy:
     src: haproxy.crt
-    dest: /etc/haproxy.crt
+    dest: /etc/haproxy/haproxy.crt
     owner: root
     group: root
     mode: 0644
 
 - name: copy certificate key
+  become: true
   ansible.builtin.copy:
     src: haproxy.crt.key
-    dest: /etc/haproxy.crt.key
+    dest: /etc/haproxy/haproxy.crt.key
     owner: root
     group: root
     mode: 0644
 
 - name: restart haproxy
+  become: true
   ansible.builtin.service:
     name: haproxy
     state: restarted
