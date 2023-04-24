@@ -3,6 +3,7 @@
   become: yes
   become_user: root
   vars_files:
+    - defaults/main.yml
     - vars/inventory-prom.yml
   tasks:
     - name: Add the group prometheus
