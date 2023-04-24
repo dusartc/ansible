@@ -6,7 +6,7 @@ After=network.target
 User=node_exporter
 Group=node_exporter
 Type=simple
-ExecStart=/usr/sbin/node_exporter --collector.logind --collector.systemd --no-collector.dmi --no-collector.infiniband --web.listen-address=:{{ node_exporter_port }} --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|run|mnt)($|/)
+ExecStart=/usr/sbin/node_exporter --collector.logind --collector.systemd --no-collector.dmi --no-collector.infiniband --web.listen-address=:9100 --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|run|mnt)($|/)
 Restart=on-failure
 
 [Install]
