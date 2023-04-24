@@ -1,0 +1,13 @@
+[Unit]
+Description=Grafana
+After=network.target
+
+[Service]
+User=grafana
+Group=grafana
+Type=simple
+ExecStart=/etc/grafana/{{ grafana_name }}/grafana --config.file=/etc/grafana/{{ grafana_name }}/
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,4 @@
+# You can find this here : https://grafana.com/docs/grafana/latest/setup-grafana/installation/debian/#2-start-the-server
+grafana_name: grafana-enterprise-9.4.7.linux-amd64
+grafana_url: https://dl.grafana.com/enterprise/release/grafana-enterprise-9.4.7.linux-amd64.tar.gz
+prometheus_checksum: sha256:22198866887e2dcf9ab1abf4f63e9318f484e5041b3c64e53080735a41b17c12

@@ -1,0 +1,37 @@
+- hosts: 10.32.71.1
+  any_errors_fatal: True
+  become: yes
+  become_user: root
+  vars_files:
+    - defaults/main.yml
+    - vars/inventory-prom.yml
+  tasks:
+    - name: install vim sudo curl
+      become: true
+      apt:
+        pkg: 
+          - apt-transport-https
+          - software-properties-common wget
+
+    - name: add apt key from grafana
+      ansible.builtin.shell: "sudo wget -q -O /usr/share/keyrings/grafana.key https://apt.grafana.com/gpg.key"
+
+    - name: add grafana repository
+      become: true
+      ansible.builtin.apt_repository:
+        repo: deb [signed-by=/usr/share/keyrings/grafana.key] https://apt.grafana.com stable main
+        state: present
+
+    - name: install grafana
+      become: true
+      apt:
+        pkg: 
+          - grafana-enterprise
+
+    - name: restart grafana
+      become: true
+      ansible.builtin.service:
+        name: grafana-server
+        state: started
+        enabled: true
+
