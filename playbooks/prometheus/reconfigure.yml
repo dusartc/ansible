@@ -23,6 +23,14 @@
         path: /etc/prometheus
         state: directory
 
+    - name: Create the prom /data folder
+      file:
+        path: /data
+        state: directory
+        owner: prometheus
+        group: prometheus
+        mode: '0755'
+        
     - name: Download file with checksum url (sha256)
       get_url:
         url: "{{ prometheus_url }}"
@@ -36,11 +44,6 @@
         remote_src: yes
         owner: prometheus
       when: not ansible_check_mode
-
-    - name: Change directory ownership, group and permissions of /data
-      ansible.builtin.file:
-        path: /data
-        mode: '0755'
 
     - name: Copy the config
       template:
@@ -63,5 +66,12 @@
       systemd:
         name: prometheus.service
         state: restarted
+
+#    - name: Change directory ownership, group and permissions of /data
+#      ansible.builtin.file:
+#        path: /data
+#        owner: prometheus
+#        group: prometheus
+#        mode: '0755'
 
 
