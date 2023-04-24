@@ -2,17 +2,17 @@ node_exporter:
   - instance: glpi
     scrapeUrl: 10.32.41.60:9100
 
-  - instance: ansible
-    scrapeUrl: 10.32.41.70:9100
+#  - instance: ansible
+#    scrapeUrl: 10.32.41.70:9100
 
-  - instance: prometheus
-    scrapeUrl: 10.32.70.2:9100
+#  - instance: prometheus
+#    scrapeUrl: 10.32.70.2:9100
 
   - instance: elk
     scrapeUrl: 10.32.70.3:9100
 
-  - instance: truenas
-    scrapeUrl: 10.32.97.1:9100
+#  - instance: truenas
+#    scrapeUrl: 10.32.97.1:9100
 
   - instance: haproxy
     scrapeUrl: 10.32.42.1:9100
