@@ -21,13 +21,13 @@
 - name: Unarchive the file
   unarchive:
     src: /tmp/{{ node_exporter_name }}.tar.gz
-    dest: /etc/prometheus/
+    dest: /tmp/{{ node_exporter_name }}
     remote_src: yes
   when: not ansible_check_mode
 
 - name: Copy the executable in /usr/local/bin
   copy:
-    src: /etc/prometheus/{{ node_exporter_name }}/node_exporter
+    src: /tmp/{{ node_exporter_name }}/node_exporter
     dest: /usr/sbin/node_exporter
     remote_src: yes
     mode: 0755
