@@ -1,0 +1,40 @@
+groups:
+  - name: Files related alerts
+    rules:
+    - alert: ApiLogsTooOld
+      expr: max(file_stat_modif_time_seconds{job="file_exporter",path=~"^/var/www/api/logs/.*"} - time()) by (instance) < -86400
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: File age check failed for instance (instance:{{ $labels.instance }}|pattern:/var/www/api/.*)
+        description: "The files in /var/www/api/logs/* are older than one day \n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+    - alert: ApiLogsTooSmall
+      expr: file_stat_size_bytes{job="file_exporter",path=~"^/var/www/api/logs/.*"} < 1000
+      for: 10m
+      labels:
+        severity: critical
+      annotations:
+        summary: The file size is too small (instance:{{ $labels.instance }}|pattern:/var/www/api/.*)
+        description: "The files in /var/www/api/logs/* are too small (< 1ko) \n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+
+    - alert: WALFileTooBig
+      expr: file_stat_size_bytes{job="file_exporter",instance=~"batman|robin|shard0|shard1",path=~"/opt/pgsql/9.6/data/pg_xlog"} / 1024 / 1024 / (pg_settings_wal_segment_size_bytes{job="file_exporter",instance=~"batman|robin|shard0|shard1"}/1024) > 200
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: WAL files directory's size is growing. Check the replication state. \n VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+
+    - alert: WALFileTooBig
+      expr: file_stat_size_bytes{job="file_exporter",instance=~"shard3|shard4",path=~"/opt/pgsql/15/main/pg_wal"} / 1024 / 1024 / (pg_settings_wal_segment_size_bytes{job="file_exporter",instance=~"batman|robin|shard0|shard1"}/1024) > 200
+      for: 0m
+      labels:
+        severity: warning
+      annotations:
+        summary: WAL files directory's size is growing. Check the replication state. \n VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+
