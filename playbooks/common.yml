@@ -2,8 +2,9 @@
 ---
 
 # base
-- hosts: common
+- hosts: webtest
   remote_user: watchtower
   roles:
-          - common
+#          - common
+          - prometheus/node-exporter
 

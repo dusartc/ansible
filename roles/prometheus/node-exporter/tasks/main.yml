@@ -11,40 +11,28 @@
     comment: Node Exporter user
     group: node_exporter
 
-- name: Create the sandbox folder
-  file:
-    path: /root/sandbox
-    state: directory
 
 - name: Download file with checksum url (sha256)
   get_url:
     url: "{{ node_exporter_url }}"
-    dest: /root/sandbox/{{ node_exporter_name }}.tar.gz
+    dest: /tmp/{{ node_exporter_name }}.tar.gz
     checksum: "{{ node_exporter_checksum }}"
 
 - name: Unarchive the file
   unarchive:
-    src: /root/sandbox/{{ node_exporter_name }}.tar.gz
-    dest: /root/sandbox/
+    src: /tmp/{{ node_exporter_name }}.tar.gz
+    dest: /etc/prometheus/
     remote_src: yes
   when: not ansible_check_mode
 
 - name: Copy the executable in /usr/local/bin
   copy:
-    src: /root/sandbox/{{ node_exporter_name }}/node_exporter
+    src: /etc/prometheus/{{ node_exporter_name }}/node_exporter
     dest: /usr/sbin/node_exporter
     remote_src: yes
     mode: 0755
   when: not ansible_check_mode
 
-- name: Clean temporary folder and files
-  file:
-    state: absent
-    path: "{{ item }}"
-  loop:
-    - /root/sandbox/{{ node_exporter_name }}/
-    - /root/sandbox/{{ node_exporter_name }}.tar.gz
-  when: not ansible_check_mode
 
 - name: Copy the .service
   template:
