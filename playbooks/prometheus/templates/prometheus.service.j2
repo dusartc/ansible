@@ -3,8 +3,8 @@ Description=Prometheus
 After=network.target
 
 [Service]
-User=prometheus
-Group=prometheus
+User=root
+Group=root
 Type=simple
 ExecStart=/etc/prometheus/prometheus-2.43.0.linux-amd64/prometheus --config.file=/etc/prometheus/prometheus-2.43.0.linux-amd64/prometheusconf.yml
 Restart=on-failure
