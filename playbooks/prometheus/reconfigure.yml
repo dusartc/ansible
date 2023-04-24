@@ -5,4 +5,55 @@
   vars_files:
     - vars/inventory-prom.yml
   tasks:
-    - name: 
+    - name: Add the group prometheus
+      group:
+        name: prometheus
+        state: present
+
+    - name: Add the user prometheus
+      user:
+        name: prometheus
+        state: present
+        comment: prometheus user
+        group: prometheus
+
+    - name: Create the prom folder
+      file:
+        path: /etc/prometheus
+        state: directory
+
+    - name: Download file with checksum url (sha256)
+      get_url:
+        url: "{{ prometheus_url }}"
+        dest: /tmp/{{ prometheus_name }}.tar.gz
+        checksum: "{{ prometheus_checksum }}"
+
+    - name: Unarchive the file
+      unarchive:
+        src: /tmp/{{ prometheus_name }}.tar.gz
+        dest: /etc/prometheus/
+        remote_src: yes
+      when: not ansible_check_mode
+
+      - name: Copy the config
+      template:
+        src: prometheusconf.yml.j2
+        dest: /etc/prometheus/prometheus-*/
+
+    - name: Copy the .service
+      template:
+        src: prometheus.service.j2
+        dest: /etc/systemd/system/prometheus.service
+
+    - name: Enable the service
+      systemd:
+        name: prometheus.service
+        enabled: yes
+        daemon_reload: yes
+      
+    - name: Start the service
+      systemd:
+        name: prometheus.service
+        state: restarted
+
+

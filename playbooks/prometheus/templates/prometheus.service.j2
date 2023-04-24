@@ -1,0 +1,13 @@
+[Unit]
+Description=Prometheus
+After=network.target
+
+[Service]
+User=Prometheus
+Group=Prometheus
+Type=simple
+ExecStart=/etc/prometheus/prometheus-*/prometheus --config.file=/etc/prometheus/prometheus-*/prometheusconf.yml
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
