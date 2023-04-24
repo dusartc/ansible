@@ -34,12 +34,14 @@
         src: /tmp/{{ prometheus_name }}.tar.gz
         dest: /etc/prometheus/
         remote_src: yes
+        owner: prometheus
       when: not ansible_check_mode
 
     - name: Copy the config
       template:
         src: prometheusconf.yml.j2
         dest: /etc/prometheus/{{ prometheus_name }}/prometheusconf.yml
+        owner: prometheus
 
     - name: Copy the .service
       template:
