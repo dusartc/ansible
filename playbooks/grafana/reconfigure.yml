@@ -6,9 +6,9 @@
     - defaults/main.yml
     - vars/inventory-prom.yml
   tasks:
-    - name: install vim sudo curl
+    - name: install prerequis
       become: true
-      apt:
+      ansible.builtin.apt:
         pkg: 
           - apt-transport-https
           - wget
@@ -22,11 +22,12 @@
         repo: deb [signed-by=/usr/share/keyrings/grafana.key] https://apt.grafana.com stable main
         state: present
 
-    - name: install grafana
+    - name: update cache and install grafana
       become: true
-      apt:
+      ansible.builtin.apt:
         pkg: 
           - grafana-enterprise
+        update_cache: yes
 
     - name: restart grafana
       become: true
