@@ -35,7 +35,7 @@
         remote_src: yes
       when: not ansible_check_mode
 
-      - name: Copy the config
+    - name: Copy the config
       template:
         src: prometheusconf.yml.j2
         dest: /etc/prometheus/prometheus-*/
