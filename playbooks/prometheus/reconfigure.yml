@@ -37,6 +37,11 @@
         owner: prometheus
       when: not ansible_check_mode
 
+    - name: Change directory ownership, group and permissions of /data
+      ansible.builtin.file:
+        path: /data
+        mode: '0755'
+
     - name: Copy the config
       template:
         src: prometheusconf.yml.j2
