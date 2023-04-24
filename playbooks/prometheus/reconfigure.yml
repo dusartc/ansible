@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: 10.32.71.1
   any_errors_fatal: True
   become: yes
   become_user: root
