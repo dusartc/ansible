@@ -1,0 +1,63 @@
+
+- name: Add the group node_exporter
+  group:
+    name: node_exporter
+    state: present
+
+- name: Add the user node_exporter
+  user:
+    name: node_exporter
+    state: present
+    comment: Node Exporter user
+    group: node_exporter
+
+- name: Create the sandbox folder
+  file:
+    path: /root/sandbox
+    state: directory
+
+- name: Download file with checksum url (sha256)
+  get_url:
+    url: "{{ node_exporter_url }}"
+    dest: /root/sandbox/{{ node_exporter_name }}.tar.gz
+    checksum: "{{ node_exporter_checksum }}"
+
+- name: Unarchive the file
+  unarchive:
+    src: /root/sandbox/{{ node_exporter_name }}.tar.gz
+    dest: /root/sandbox/
+    remote_src: yes
+  when: not ansible_check_mode
+
+- name: Copy the executable in /usr/local/bin
+  copy:
+    src: /root/sandbox/{{ node_exporter_name }}/node_exporter
+    dest: /usr/sbin/node_exporter
+    remote_src: yes
+    mode: 0755
+  when: not ansible_check_mode
+
+- name: Clean temporary folder and files
+  file:
+    state: absent
+    path: "{{ item }}"
+  loop:
+    - /root/sandbox/{{ node_exporter_name }}/
+    - /root/sandbox/{{ node_exporter_name }}.tar.gz
+  when: not ansible_check_mode
+
+- name: Copy the .service
+  template:
+    src: node_exporter.service.j2
+    dest: /etc/systemd/system/node_exporter.service
+
+- name: Enable the service
+  systemd:
+    name: node_exporter.service
+    enabled: yes
+    daemon_reload: yes
+  
+- name: Start the service
+  systemd:
+    name: node_exporter.service
+    state: restarted
