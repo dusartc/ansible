@@ -39,7 +39,7 @@
     - name: Copy the config
       template:
         src: prometheusconf.yml.j2
-        dest: /etc/prometheus/prometheus-*/
+        dest: /etc/prometheus/prometheus-2*/
 
     - name: Copy the .service
       template:

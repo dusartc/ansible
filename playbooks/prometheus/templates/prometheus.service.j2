@@ -6,7 +6,7 @@ After=network.target
 User=prometheus
 Group=prometheus
 Type=simple
-ExecStart=/etc/prometheus/prometheus-*/prometheus --config.file=/etc/prometheus/prometheus-*/prometheusconf.yml
+ExecStart=/etc/prometheus/prometheus-2*/prometheus --config.file=/etc/prometheus/prometheus-2*/prometheusconf.yml
 Restart=on-failure
 
 [Install]
