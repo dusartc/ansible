@@ -21,7 +21,7 @@
 - name: Unarchive the file
   unarchive:
     src: /tmp/{{ node_exporter_name }}.tar.gz
-    dest: /tmp/{{ node_exporter_name }}
+    dest: /tmp
     remote_src: yes
   when: not ansible_check_mode
 
