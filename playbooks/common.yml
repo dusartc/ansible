@@ -4,6 +4,7 @@
 # base
 - hosts: webtest
   remote_user: watchtower
+  become: true
   roles:
 #          - common
           - prometheus/node-exporter
