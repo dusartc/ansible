@@ -84,15 +84,25 @@
 
 - name: install ssh key
   become: true
-  authorized_key: user=mynthos
-                  key="{{ lookup('file', '/home/watchtower/ansible/roles/common/files/clement.pub') }}" 
-                  state=present
+  authorized_key: 
+        user=mynthos
+        key="{{ lookup('file', '/home/watchtower/ansible/roles/common/files/clement.pub') }}" 
+        state=present
 
 - name: install ssh key
   become: true
-  authorized_key: user=mynthos
-                  key="{{ lookup('file', '/home/watchtower/ansible/roles/common/files/romaric.pub') }}" 
-                  state=present
+  authorized_key: 
+        user=mynthos
+        key="{{ lookup('file', '/home/watchtower/ansible/roles/common/files/romaric.pub') }}" 
+        state=present
+
+- name: install ssh key
+  become: true
+  authorized_key: 
+        user=mynthos
+        key="{{ lookup('file', '/home/watchtower/ansible/roles/common/files/group_admin.pub') }}" 
+        state=present
+
 # set ntp
 # install ca
 - name: install ca
