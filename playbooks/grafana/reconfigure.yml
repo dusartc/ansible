@@ -29,6 +29,12 @@
           - grafana-enterprise
         update_cache: yes
 
+    - name: Copy the config
+      become: true
+      template:
+        src: grafana.ini.j2
+        dest: /etc/grafana/grafana.ini
+
     - name: restart grafana
       become: true
       ansible.builtin.service:

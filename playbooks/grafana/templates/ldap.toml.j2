@@ -1,0 +1,29 @@
+[[servers]]
+# Ldap server host (specify multiple hosts space separated)
+host = "10.32.41.1"
+# Default port is 389 or 636 if use_ssl = true
+port = 389
+# Set to true if LDAP server supports TLS
+use_ssl = false
+
+bind_dn = "Administrateur"
+bind_password = """'2Wd?f'4;q,wgZ&>02|2"""
+
+search_filter = "(uid=%s)"
+
+search_base_dns = ["ou=ADMINS,dc=azeroth,dc=wow"]
+group_search_base_dns = ["ou=Users,dc=azeroth,dc=wow"]
+
+# Specify names of the LDAP attributes your LDAP uses
+[servers.attributes]
+name = "givenName"
+surname = "sn"
+username = "uid"
+member_of = "memberOf"
+email =  "mail"
+
+
+[[servers.group_mappings]]
+group_dn = "ou=ADMINS,dc=azeroth,dc=wow"
+org_role = "Admin"
+grafana_admin = true # Available in Grafana v5.3 and above
