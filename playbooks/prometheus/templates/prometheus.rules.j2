@@ -12,7 +12,7 @@ groups:
 
 
     - alert: HostOutOfMemory
-      expr: node_memory_MemAvailable_bytes{criticality="catastrophic"} / node_memory_MemTotal_bytes{criticality="catastrophic"} * 100 < 10
+      expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10
       for: 2m
       labels:
         severity: critical
@@ -21,7 +21,7 @@ groups:
         description: "Node memory is filling up (< 10% left)\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
   
     - alert: HostOutOfMemory
-      expr: node_memory_MemAvailable_bytes{criticality="catastrophic"} / node_memory_MemTotal_bytes{criticality="catastrophic"} * 100 < 20
+      expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 20
       for: 2m
       labels:
         severity: warning
@@ -30,7 +30,7 @@ groups:
         description: "Node memory is filling up (< 20% left)\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
 
     - alert: HostOutOfMemory
-      expr: node_memory_MemAvailable_bytes{criticality="major"} / node_memory_MemTotal_bytes{criticality="major"} * 100 < 7
+      expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 7
       for: 2m
       labels:
         severity: critical
@@ -39,7 +39,7 @@ groups:
         description: "Node memory is filling up (< 7% left)\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
 
     - alert: HostOutOfMemory
-      expr: node_memory_MemAvailable_bytes{criticality="major"} / node_memory_MemTotal_bytes{criticality="major"} * 100 < 15
+      expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 15
       for: 2m
       labels:
         severity: warning
@@ -48,7 +48,7 @@ groups:
         description: "Node memory is filling up (< 15% left)\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
 
     - alert: HostOutOfMemory
-      expr: node_memory_MemAvailable_bytes{criticality="minor"} / node_memory_MemTotal_bytes{criticality="minor"} * 100 < 5
+      expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 5
       for: 2m
       labels:
         severity: critical
@@ -58,7 +58,7 @@ groups:
 
 
     - alert: HostOutOfMemory
-      expr: node_memory_MemAvailable_bytes{criticality="minor"} / node_memory_MemTotal_bytes{criticality="minor"} * 100 < 10
+      expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10
       for: 2m
       labels:
         severity: warning
@@ -69,7 +69,7 @@ groups:
 
 
     - alert: HostMemoryUnderMemoryPressure
-      expr: rate(node_vmstat_pgmajfault{criticality=~"catastrophic|major|minor"}[1m]) > 1000
+      expr: rate(node_vmstat_pgmajfault[1m]) > 1000
       for: 2m
       labels:
         severity: critical
@@ -79,7 +79,7 @@ groups:
 
 
     - alert: HostMemoryUnderMemoryPressure
-      expr: rate(node_vmstat_pgmajfault{criticality=~"catastrophic|major"}[1m]) > 500
+      expr: rate(node_vmstat_pgmajfault[1m]) > 500
       for: 2m
       labels:
         severity: warning
@@ -92,7 +92,7 @@ groups:
 
 
     - alert: HostUnusualNetworkThroughputIn
-      expr: sum by (instance, device) (rate(node_network_receive_bytes_total{criticality=~"catastrophic|major", device!~"^tap.*|^vnet.*|^veth.*"}[2m])) > 0.9 * node_network_speed_bytes{device!~"^tap.*|^vnet.*|^veth.*"}
+      expr: sum by (instance, device) (rate(node_network_receive_bytes_total{device!~"^tap.*|^vnet.*|^veth.*"}[2m])) > 0.9 * node_network_speed_bytes{device!~"^tap.*|^vnet.*|^veth.*"}
       for: 5m
       labels:
         severity: critical
@@ -102,7 +102,7 @@ groups:
 
 
     - alert: HostUnusualNetworkThroughputIn
-      expr: sum by (instance, device) (rate(node_network_receive_bytes_total{criticality="minor", device!~"^tap.*|^vnet.*|^veth.*"}[2m])) > 0.9 * node_network_speed_bytes{device!~"^tap.*|^vnet.*|^veth.*"}
+      expr: sum by (instance, device) (rate(node_network_receive_bytes_total{device!~"^tap.*|^vnet.*|^veth.*"}[2m])) > 0.9 * node_network_speed_bytes{device!~"^tap.*|^vnet.*|^veth.*"}
       for: 5m
       labels:
         severity: warning
@@ -115,7 +115,7 @@ groups:
 
 
     - alert: HostUnusualNetworkThroughputOut
-      expr: sum by (instance, device) (rate(node_network_transmit_bytes_total{criticality=~"catastrophic|major", device!~"^tap.*|^vnet.*|^veth.*"}[2m])) > 0.9 * node_network_speed_bytes{device!~"^tap.*|^vnet.*|^veth.*"}
+      expr: sum by (instance, device) (rate(node_network_transmit_bytes_total{device!~"^tap.*|^vnet.*|^veth.*"}[2m])) > 0.9 * node_network_speed_bytes{device!~"^tap.*|^vnet.*|^veth.*"}
       for: 5m
       labels:
         severity: critical
@@ -242,152 +242,65 @@ groups:
 
 
 
-    # - alert: HostUnusualDiskReadLatency
-    #   expr: rate(node_disk_read_time_seconds_total[1m]) / rate(node_disk_reads_completed_total[1m]) > 0.1 and rate(node_disk_reads_completed_total[1m]) > 0
-    #   for: 2m
-    #   labels:
-    #     severity: warning
-    #   annotations:
-    #     summary: Host unusual disk read latency (instance {{ '{{' }} $labels.instance {{ '}}' }})
-    #     description: "Disk latency is growing (read operations > 100ms)\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
+     - alert: HostUnusualDiskReadLatency
+       expr: rate(node_disk_read_time_seconds_total[1m]) / rate(node_disk_reads_completed_total[1m]) > 0.1 and rate(node_disk_reads_completed_total[1m]) > 0
+       for: 2m
+       labels:
+         severity: warning
+       annotations:
+         summary: Host unusual disk read latency (instance {{ '{{' }} $labels.instance {{ '}}' }})
+         description: "Disk latency is growing (read operations > 100ms)\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
 
 
 
-    # - alert: HostUnusualDiskWriteLatency
-    #   expr: rate(node_disk_write_time_seconds_total[1m]) / rate(node_disk_writes_completed_total[1m]) > 0.1 and rate(node_disk_writes_completed_total[1m]) > 0
-    #   for: 2m
-    #   labels:
-    #     severity: warning
-    #   annotations:
-    #     summary: Host unusual disk write latency (instance {{ '{{' }} $labels.instance {{ '}}' }})
-    #     description: "Disk latency is growing (write operations > 100ms)\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
-
-
-
-
-    - record: disk_write_latency
-      expr: 1
-      labels:
-         iops: low
-
-    - record: disk_write_latency
-      expr: 0.4
-      labels:
-         iops: medium
-
-    - record: disk_write_latency
-      expr: 0.1
-      labels:
-         iops: high
-
-    - alert: HostUnusualDiskWriteLatency
-      expr: rate(node_disk_write_time_seconds_total[1m]) / rate(node_disk_writes_completed_total[1m]) > on (iops, instance, device) group_left disk_write_latency and rate(node_disk_writes_completed_total[1m]) > 0
-      for: 2m
-      labels:
-        severity: warning
-      annotations:
-        summary: Host unusual disk write latency (instance {{ '{{' }} $labels.instance {{ '}}' }})
-        description: "Disk latency is growing (write operations VALUE = {{ '{{' }} $value {{ '}}' }})\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
-
-
-    - record: disk_read_latency
-      expr: 1
-      labels:
-         iops: low
-
-    - record: disk_read_latency
-      expr: 0.4
-      labels:
-         iops: medium
-
-    - record: disk_read_latency
-      expr: 0.1
-      labels:
-         iops: high
-
-    - alert: HostUnusualDiskReadLatency
-      expr: rate(node_disk_read_time_seconds_total[1m]) / rate(node_disk_reads_completed_total[1m]) > on (iops, instance, device) group_left disk_read_latency and rate(node_disk_reads_completed_total[1m]) > 0
-      for: 2m
-      labels:
-        severity: warning
-      annotations:
-        summary: Host unusual disk read latency (instance {{ '{{' }} $labels.instance {{ '}}' }})
-        description: "Disk latency is growing (read operations VALUE = {{ '{{' }} $value {{ '}}' }})\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
+     - alert: HostUnusualDiskWriteLatency
+       expr: rate(node_disk_write_time_seconds_total[1m]) / rate(node_disk_writes_completed_total[1m]) > 0.1 and rate(node_disk_writes_completed_total[1m]) > 0
+       for: 2m
+       labels:
+         severity: warning
+       annotations:
+         summary: Host unusual disk write latency (instance {{ '{{' }} $labels.instance {{ '}}' }})
+         description: "Disk latency is growing (write operations > 100ms)\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
 
 
 
 
-    # - alert: HostHighCpuLoad
-    #   expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle",criticality=~"catastrophic|major"}[2m])) * 100) > 80
-    #   for: 10m
-    #   labels:
-    #     severity: warning
-    #   annotations:
-    #     summary: Host high CPU load (instance {{ '{{' }} $labels.instance {{ '}}' }})
-    #     description: "CPU load is > 80%\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
-
-
-    # - alert: HostHighCpuLoad
-    #   expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle",criticality=~"catastrophic|major"}[2m])) * 100) > 95
-    #   for: 2m
-    #   labels:
-    #     severity: critical
-    #   annotations:
-    #     summary: Host high CPU load (instance {{ '{{' }} $labels.instance {{ '}}' }})
-    #     description: "CPU load is > 95%\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
+    
 
 
 
-    # - alert: HostHighCpuLoad
-    #   expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle",criticality="minor"}[2m])) * 100) > 95
-    #   for: 10m
-    #   labels:
-    #     severity: warning
-    #   annotations:
-    #     summary: Host high CPU load (instance {{ '{{' }} $labels.instance {{ '}}' }})
-    #     description: "CPU load is > 95%\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
 
-    - record: high_cpu_load
-      expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100)
-      labels:
-         cpu_usage: low
+     - alert: HostHighCpuLoad
+       expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle",criticality=~"catastrophic|major"}[2m])) * 100) > 80
+       for: 10m
+       labels:
+         severity: warning
+       annotations:
+         summary: Host high CPU load (instance {{ '{{' }} $labels.instance {{ '}}' }})
+         description: "CPU load is > 80%\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
 
-    - record: high_cpu_load
-      expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[20m])) * 100)
-      labels:
-         cpu_usage: medium
 
-    - record: high_cpu_load
-      expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[200m])) * 100)
-      labels:
-         cpu_usage: high
+     - alert: HostHighCpuLoad
+       expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle",criticality=~"catastrophic|major"}[2m])) * 100) > 95
+       for: 2m
+       labels:
+         severity: critical
+       annotations:
+         summary: Host high CPU load (instance {{ '{{' }} $labels.instance {{ '}}' }})
+         description: "CPU load is > 95%\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
 
-    - alert: HighCpuLoad
-      expr: up{job="node_exporter", criticality=~"catastrophic|major"} * on(cpu_usage,instance) group_left high_cpu_load > 80
-      for: 10m
-      labels:
-        severity: warning
-      annotations:
-        summary: Host high CPU load (instance {{ '{{' }} $labels.instance {{ '}}' }})
-        description: "CPU load is > 80%\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
 
-    - alert: HighCpuLoad
-      expr: up{job="node_exporter", criticality=~"catastrophic|major"} * on(cpu_usage,instance) group_left high_cpu_load > 95
-      for: 10m
-      labels:
-        severity: critical
-      annotations:
-        summary: Host high CPU load (instance {{ '{{' }} $labels.instance {{ '}}' }})
-        description: "CPU load is > 95%\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
 
-    - alert: HighCpuLoad
-      expr: up{job="node_exporter", criticality=~"minor"} * on(cpu_usage,instance) group_left high_cpu_load > 95
-      for: 10m
-      labels:
-        severity: warning
-      annotations:
-        summary: Host high CPU load (instance {{ '{{' }} $labels.instance {{ '}}' }})
-        description: "CPU load is > 95%\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
+     - alert: HostHighCpuLoad
+       expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle",criticality="minor"}[2m])) * 100) > 95
+       for: 10m
+       labels:
+         severity: warning
+       annotations:
+         summary: Host high CPU load (instance {{ '{{' }} $labels.instance {{ '}}' }})
+         description: "CPU load is > 95%\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
+
+
 
 
     - alert: HostCpuStealNoisyNeighbor
@@ -404,49 +317,27 @@ groups:
 
 
 
-    # - alert: HostCpuHighIowait
-    #   expr: avg by (instance) (rate(node_cpu_seconds_total{mode="iowait",criticality="catastrophic|major"}[5m])) * 100 > 5
-    #   for: 0m
-    #   labels:
-    #     severity: critical
-    #   annotations:
-    #     summary: Host CPU high iowait (instance {{ '{{' }} $labels.instance {{ '}}' }})
-    #     description: "CPU iowait > 5%. A high iowait means that you are disk or network bound.\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
+     - alert: HostCpuHighIowait
+       expr: avg by (instance) (rate(node_cpu_seconds_total{mode="iowait",criticality="catastrophic|major"}[5m])) * 100 > 5
+       for: 0m
+       labels:
+         severity: critical
+       annotations:
+         summary: Host CPU high iowait (instance {{ '{{' }} $labels.instance {{ '}}' }})
+         description: "CPU iowait > 5%. A high iowait means that you are disk or network bound.\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
 
 
-    # - alert: HostCpuHighIowait
-    #   expr: avg by (instance) (rate(node_cpu_seconds_total{mode="iowait",criticality=~"minor"}[5m])) * 100 > 10
-    #   for: 0m
-    #   labels:
-    #     severity: minor
-    #   annotations:
-    #     summary: Host CPU high iowait (instance {{ '{{' }} $labels.instance {{ '}}' }})
-    #     description: "CPU iowait > 10%. A high iowait means that you are disk or network bound.\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
+     - alert: HostCpuHighIowait
+       expr: avg by (instance) (rate(node_cpu_seconds_total{mode="iowait",criticality=~"minor"}[5m])) * 100 > 10
+       for: 0m
+       labels:
+         severity: minor
+       annotations:
+         summary: Host CPU high iowait (instance {{ '{{' }} $labels.instance {{ '}}' }})
+         description: "CPU iowait > 10%. A high iowait means that you are disk or network bound.\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
 
 
-    - record: cpu_iowait
-      expr: 15
-      labels:
-         iops: low
 
-    - record: cpu_iowait
-      expr: 10
-      labels:
-         iops: medium
-
-    - record: cpu_iowait
-      expr: 5
-      labels:
-         iops: high
-
-    - alert: HostCpuHighIowait
-      expr: avg by (instance) (rate(node_cpu_seconds_total{mode="iowait"}[5m])) * 100 > on (iops, instance) group_left cpu_iowait
-      for: 0m
-      labels:
-        severity: warning
-      annotations:
-        summary: Host CPU high iowait (instance {{ '{{' }} $labels.instance {{ '}}' }})
-        description: "CPU iowait > VALUE = {{ '{{' }} $value {{ '}}' }} %. A high iowait means that you are disk or network bound.\n  VALUE = {{ '{{' }} $value {{ '}}' }}\n  LABELS = {{ '{{' }} $labels {{ '}}' }}"
 
 
 
