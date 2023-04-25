@@ -1,0 +1,6 @@
+- hosts: test
+  roles:
+    reqsign
+  vars:
+    cert_dir: "/etc/filebeat/certs"
+    type: "client"
