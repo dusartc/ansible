@@ -9,4 +9,4 @@
 #          - common
 #          - prometheus/node-exporter
           - ssh
-
+          - elk
