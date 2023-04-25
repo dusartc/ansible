@@ -50,14 +50,12 @@
         src: prometheusconf.yml.j2
         dest: /etc/prometheus/{{ prometheus_name }}/prometheusconf.yml
         owner: prometheus
-        group: prometheus
 
     - name: Copy the rules
       template:
         src: prometheus.rules.j2
-        dest: /etc/prometheus/prometheus.rules
+        dest: /etc/prometheus/{{ prometheus_name }}/prometheus.rules
         owner: prometheus
-        group: prometheus
 
     - name: Copy the .service
       template:
