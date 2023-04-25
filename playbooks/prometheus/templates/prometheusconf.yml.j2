@@ -2,7 +2,7 @@ global:
   scrape_interval: 15s # By default, scrape targets every 15 seconds.
 
 rule_files:
-  - /etc/prometheus/{{prometheus_name}}/prometheus.rules.yml
+  - /etc/prometheus/prometheus-2.43.0.linux-amd64/prometheus.rules.yml
 
 scrape_configs:
   - job_name: 'prometheus'
@@ -14,7 +14,7 @@ scrape_configs:
   - job_name: 'node_exporter'
     scrape_interval: 15s
     static_configs:
-{% for node in node_exporter %}
+{% for node in node_exporte
       - targets: ["{{ node.scrapeUrl }}"]
         labels: 
           instance: "{{ node.instance }}"
