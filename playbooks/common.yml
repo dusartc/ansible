@@ -7,5 +7,6 @@
   become: true
   roles:
 #          - common
-          - prometheus/node-exporter
+#          - prometheus/node-exporter
+          - ssh
 

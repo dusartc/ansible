@@ -68,41 +68,6 @@
   become: true
   ansible.builtin.command: perl /tmp/glpi-agent -S -s http://glpi.azeroth.wow/glpi/front/inventory.php --runnow
 
-
-# exporter prometheus
-# set sudoer
-# set ssh key
-
-#ssh-addkey.yml
-
-- name: install ssh key
-  become: true
-  authorized_key: 
-        user=mynthos
-        key="{{ lookup('file', '/home/watchtower/ansible/roles/common/files/william.pub') }}" 
-        state=present
-
-- name: install ssh key
-  become: true
-  authorized_key: 
-        user=mynthos
-        key="{{ lookup('file', '/home/watchtower/ansible/roles/common/files/clement.pub') }}" 
-        state=present
-
-- name: install ssh key
-  become: true
-  authorized_key: 
-        user=mynthos
-        key="{{ lookup('file', '/home/watchtower/ansible/roles/common/files/romaric.pub') }}" 
-        state=present
-
-- name: install ssh key
-  become: true
-  authorized_key: 
-        user=mynthos
-        key="{{ lookup('file', '/home/watchtower/ansible/roles/common/files/group_admin.pub') }}" 
-        state=present
-
 # set ntp
 # install ca
 - name: install ca
