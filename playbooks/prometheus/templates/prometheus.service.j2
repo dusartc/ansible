@@ -3,11 +3,12 @@ Description=Prometheus
 After=network.target
 
 [Service]
-User=root
-Group=root
+User=prometheus
+Group=prometheus
 Type=simple
 ExecStart=/etc/prometheus/{{ prometheus_name }}/prometheus --config.file=/etc/prometheus/{{ prometheus_name }}/prometheusconf.yml
 Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
+
