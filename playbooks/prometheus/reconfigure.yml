@@ -51,10 +51,17 @@
         dest: /etc/prometheus/{{ prometheus_name }}/prometheusconf.yml
         owner: prometheus
 
-    - name: Copy the rules
-      template:
-        src: prometheus.rules.j2
+#    - name: Copy the rules
+#      template:
+#        src: prometheus.rules.j2
+#        dest: /etc/prometheus/{{ prometheus_name }}/prometheus.rules
+#        owner: prometheus
+
+    - name: copy rules hardware
+      ansible.builtin.copy:
+        src: prometheus.rules
         dest: /etc/prometheus/{{ prometheus_name }}/prometheus.rules
+        mode: 0755
         owner: prometheus
 
     - name: Copy the .service
