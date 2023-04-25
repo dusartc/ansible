@@ -51,6 +51,12 @@
         dest: /etc/prometheus/{{ prometheus_name }}/prometheusconf.yml
         owner: prometheus
 
+    - name: Copy the rules
+      template:
+        src: prometheus.rules.j2
+        dest: /etc/prometheus/{{ prometheus_name }}/prometheus.rules.yml
+        owner: prometheus
+
     - name: Copy the .service
       template:
         src: prometheus.service.j2

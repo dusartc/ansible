@@ -2,7 +2,7 @@ global:
   scrape_interval: 15s # By default, scrape targets every 15 seconds.
 
 rule_files:
-  - /etc/prometheus/prometheus.rules
+  - /etc/prometheus/{{prometheus_name}}/prometheus.rules.yml
 
 scrape_configs:
   - job_name: 'prometheus'
@@ -24,8 +24,7 @@ scrape_configs:
 
 # Alertmanager configuration
 alerting:
-   alertmanagers:
-      - scheme: http
-        static_configs:
-        - targets:
-          - alertmanager-service-lb:9093
+  alertmanagers:
+    - static_configs:
+      - targets:
+        - alertmanager:9093
