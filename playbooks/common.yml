@@ -2,11 +2,11 @@
 ---
 
 # base
-- hosts: common
+- hosts: exporter
   remote_user: watchtower
   become: true
   roles:
 #          - common
-#          - prometheus/node-exporter
-          - ssh
-          - elk
+          - prometheus/node-exporter
+#          - ssh
+#          - elk

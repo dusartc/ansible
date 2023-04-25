@@ -1,35 +1,39 @@
 # /roles/reqsign/tasks/main
 
 - name: install openssl
-  become: true
   apt:
     pkg:
       - openssl
+      - python3-pip
+
+- name: install pip crypto
+  ansible.builtin.pip:
+    name: cryptography
 
 - name: mkdir
   become: true
   ansible.builtin.file:
-    path: {{ cert_dir }}
+    path: "{{ cert_dir }}"
     state: directory
     mode: '0755'
 
 # generate openssl key
 - name: generate key
   community.crypto.openssl_privatekey:
-    path: {{ cert_dir }}/{{ inventory_hostname }}-ansible.key
+    path: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.key"
 
 # convert to pk8
 - name: convert to pk8
   community.crypto.openssl_privatekey_convert:
-    src_path: {{ cert_dir }}/{{ inventory_hostname }}-ansible.key
-    dest_path: {{ cert_dir }}/{{ inventory_hostname }}-ansible-pk8.key
+    src_path: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.key"
+    dest_path: "{{ cert_dir }}/{{ inventory_hostname }}-ansible-pk8.key"
     format: pkcs8
 
 # generate certificate signing request
 - name: generate csr
   community.crypto.openssl_csr:
-    path: {{ cert_dir }}/{{ inventory_hostname }}-ansible.req
-    privatekey_path: {{ cert_dir }}/{{ inventory_hostname }}-ansible.key
+    path: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.req"
+    privatekey_path: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.key"
     subject_ordered: {
       'C':'FR',
       'ST':'NORD',
