@@ -1,0 +1,28 @@
+# roles/ssh/tasks/main.yml
+- name: install ssh key
+  become: true
+  authorized_key: 
+        user=mynthos
+        key="{{ lookup('file', '/home/watchtower/ansible/roles/ssh/files/william.pub') }}" 
+        state=present
+
+- name: install ssh key
+  become: true
+  authorized_key: 
+        user=mynthos
+        key="{{ lookup('file', '/home/watchtower/ansible/roles/ssh/files/clement.pub') }}" 
+        state=present
+
+- name: install ssh key
+  become: true
+  authorized_key: 
+        user=mynthos
+        key="{{ lookup('file', '/home/watchtower/ansible/roles/ssh/files/romaric.pub') }}" 
+        state=present
+
+- name: install ssh key
+  become: true
+  authorized_key: 
+        user=mynthos
+        key="{{ lookup('file', '/home/watchtower/ansible/roles/ssh/files/group_admin.pub') }}" 
+        state=present
