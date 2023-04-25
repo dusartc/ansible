@@ -40,7 +40,6 @@
       'L':'LILLE',
       'O':'GastonMedilab',
       'OU':'COMMUNITY',
-      'CN':'{{ inventory_hostname }}.azeroth.wow'
   }
 
 
