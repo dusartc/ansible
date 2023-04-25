@@ -34,13 +34,13 @@
   community.crypto.openssl_csr:
     path: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.req"
     privatekey_path: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.key"
-    subject_ordered: {
+    subject_ordered: [
       'C=FR',
       'ST=NORD',
       'L=LILLE',
       'O=GastonMedilab',
       'OU=COMMUNITY',
       'CN={{ inventory_hostname }}.azeroth.wow'
-  }
+  ]
 
 
