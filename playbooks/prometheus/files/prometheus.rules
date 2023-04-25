@@ -8,7 +8,7 @@ groups:
         severity: critical
       annotations:
         summary: Node {{ $labels.instance }} is down
-        description: Failed to scrape {{ $labels.job {{ '}}' }} on {{ '{{' }} $labels.instance {{ '}}' }} for more than 3 minutes. Node seems down.
+        description: Failed to scrape {{ $labels.job }} on {{ $labels.instance }} for more than 3 minutes. Node seems down.
 
     - alert: HostOutOfMemory
       expr: (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}
