@@ -6,4 +6,4 @@
     src: "/tmp/{{ item }}/{{ cert_dir }}/{{ item }}-ansible.req"
     dest: "/tmp"
   loop: "{{ ansible_play_hosts}}"
-  when: "{{ inventory_hostname }}" == "ca"
+  when: '"{{ inventory_hostname }}" == "ca"'
