@@ -14,12 +14,18 @@
     pkg: 
       - filebeat
 
-- name: copy conf
-  become: true
-  ansible.builtin.copy:
-    src: filebeat.yml
+- name: demande de certificat
+  ansible.builtin.import_role:
+    name: reqsign
+  vars:
+    cert_dir: "/etc/filebeat/certs"
+    type: "client"
+    convert: true
+
+- name: ssl config
+  ansible.builtin.template:
+    src: filebeat.yml.j2
     dest: /etc/filebeat/filebeat.yml
-    mode: 0644
 
 - name: config vers logstash 1
   become: true
@@ -29,13 +35,13 @@
   become: true
   ansible.builtin.command: sudo filebeat setup --pipelines --modules system
 
-- name: config vers logstash 3
-  become: true
-  ansible.builtin.command: filebeat setup --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["10.32.70.3:9200"]'
+    #- name: config vers logstash 3
+    #become: true
+    #ansible.builtin.command: filebeat setup --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["10.32.70.3:9200"]'
 
-- name: config vers logstash 4
-  become: true
-  ansible.builtin.command: filebeat setup -E output.logstash.enabled=false -E output.elasticsearch.hosts=['10.32.70.3:9200'] -E setup.kibana.host=10.32.70.3:5601
+    #- name: config vers logstash 4
+    #become: true
+    #ansible.builtin.command: filebeat setup -E output.logstash.enabled=false -E output.elasticsearch.hosts=['10.32.70.3:9200'] -E setup.kibana.host=10.32.70.3:5601
 
 - name: restart filebeat
   become: true
@@ -44,10 +50,3 @@
     state: started
     enabled: true
 
-- hosts: common
-  tasks: 
-    - ansible.builtin.import_role:
-        name: reqsign
-        vars:
-          cert_dir: "/etc/filebeat/certs"
-          type: "client"

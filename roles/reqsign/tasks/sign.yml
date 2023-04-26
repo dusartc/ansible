@@ -1,0 +1,24 @@
+# roles/reqsign/sign.yml
+
+# upload les csr
+- name: upload csr
+  ansible.builtin.copy:
+    src: "/tmp/{{ item }}/{{ cert_dir }}/{{ item }}-ansible.req"
+    dest: "/tmp"
+  loop: "{{ ansible_play_hosts }}"
+  when: inventory_hostname == "ca"
+
+# sign
+- name: signin with custom script
+  become_user: authority
+  ansible.builtin.command:
+    /home/authority/sign.sh "{{ type }}"
+  when: inventory_hostname == "ca"
+
+# getting back crt
+- name: getting back crt
+  ansible.builtin.fetch:
+    src: "/tmp/{{ item }}-ansible.crt"
+    dest: "/tmp"
+  loop: "{{ ansible_play_hosts }}"
+  when: inventory_hostname == "ca"
