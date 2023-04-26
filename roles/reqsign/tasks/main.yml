@@ -59,8 +59,8 @@
     name: reqsign
     tasks_from: sign
 
-      # distribue les cert signes
-      #- name: distribue les certs
-      #  ansible.builtin.copy:
-      #    src: "/tmp/{{ inventory_hostname }}/{{ cert_dir }}/"
-      #    dest: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.crt"
+# distribue les cert signes
+- name: distribue les certs
+  ansible.builtin.copy:
+    src: "/tmp/ca/tmp/{{ inventory_hostname }}-ansible.crt"
+    dest: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.crt"
