@@ -21,7 +21,7 @@
 
     - name: insert var + install wazuh agent
       become: true
-      ansible.builtin.shell: "WAZUH_MANAGER="10.32.72.1" apt install wazuh-agent"
+      ansible.builtin.command: "WAZUH_MANAGER='10.32.72.1' apt install wazuh-agent"
 
 
     - name: Just force systemd to reread configs (2.4 and above)
