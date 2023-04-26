@@ -10,7 +10,7 @@
 
 # sign
 - name: signin with custom script
-  become: authority
+  become_user: authority
   ansible.builtin.command:
     /home/authority/sign.sh "{{ type }}"
   when: inventory_hostname == "ca"
