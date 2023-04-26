@@ -54,16 +54,16 @@
 #- name: signing with custom script
 #  local_action: ansible.builtin.command /home/watchtower/ansible/roles/reqsign
 
-- name: appel de l'autorite 
-  hosts: authority
-  ansible.builtin.import_role:
-    name: reqsign
-  task_from: sign
-  vars:
-    old_hosts: "{{ ansible_play_hosts }}"
+- hosts: authority
+  tasks:
+    - ansible.builtin.import_role:
+        name: reqsign
+        tasks_from: sign
+        vars:
+          old_hosts: "{{ ansible_play_hosts }}"
 
-# distribue les cert signes
-#- name: distribue les certs
-#  ansible.builtin.copy:
-#    src: "/tmp/{{ inventory_hostname }}/{{ cert_dir }}/"
-#    dest: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.crt"
+      # distribue les cert signes
+      #- name: distribue les certs
+      #  ansible.builtin.copy:
+      #    src: "/tmp/{{ inventory_hostname }}/{{ cert_dir }}/"
+      #    dest: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.crt"
