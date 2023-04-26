@@ -54,7 +54,7 @@
 #- name: signing with custom script
 #  local_action: ansible.builtin.command /home/watchtower/ansible/roles/reqsign
 
-- hosts: CA
+- hosts: authority
   tasks:
     - ansible.builtin.import_role:
       name: reqsign
