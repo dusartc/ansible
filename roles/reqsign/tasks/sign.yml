@@ -1,0 +1,6 @@
+# roles/reqsign/sign.yml
+
+# upload les csr
+- name: upload csr
+  ansible.builtin.copy:
+

@@ -28,6 +28,7 @@
     src_path: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.key"
     dest_path: "{{ cert_dir }}/{{ inventory_hostname }}-ansible-pk8.key"
     format: pkcs8
+  when: convert
 
 # generate certificate signing request
 - name: generate csr
@@ -43,4 +44,24 @@
       'CN={{ inventory_hostname }}.azeroth.wow'
   ]
 
+# recupere les fichiers des nodes
+- name: fetch from nodes
+  ansible.builtin.fetch:
+    src: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.req"
+    dest: "/tmp"
 
+# sign
+#- name: signing with custom script
+#  local_action: ansible.builtin.command /home/watchtower/ansible/roles/reqsign
+
+#- hosts: CA
+#  tasks:
+#    - ansible.builtin.import_role:
+#      name: reqsign
+#      task_from: sign
+
+# distribue les cert signes
+#- name: distribue les certs
+#  ansible.builtin.copy:
+#    src: "/tmp/{{ inventory_hostname }}/{{ cert_dir }}/"
+#    dest: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.crt"
