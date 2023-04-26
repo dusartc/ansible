@@ -1,4 +1,4 @@
-- hosts: www1
+- hosts: exporter
   any_errors_fatal: True
   become: yes
   become_user: root
