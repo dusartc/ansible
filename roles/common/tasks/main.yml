@@ -8,6 +8,7 @@
       - curl
       - wget
       - gpg
+    update_cache: yes
 
 # install glpi-agent
 - name: copy agent to /tmp
