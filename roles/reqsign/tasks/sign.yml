@@ -5,5 +5,5 @@
   ansible.builtin.copy:
     src: "/tmp/{{ item }}/{{ cert_dir }}/{{ item }}-ansible.req"
     dest: "/tmp"
-  loop: {{ old_hosts }}
-  when: {{ inventory_hostname }} == 'ca'
+  loop: "{{ ansible_play_hosts}}"
+  when: "{{ inventory_hostname }}" == 'ca'
