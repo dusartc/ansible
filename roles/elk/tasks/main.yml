@@ -14,12 +14,18 @@
     pkg: 
       - filebeat
 
-- name: copy conf
-  become: true
-  ansible.builtin.copy:
-    src: filebeat.yml
+- name: demande de certificat
+  ansible.builtin.import_role:
+    name: reqsign
+  vars:
+    cert_dir: "/etc/filebeat/certs"
+    type: "client"
+    convert: true
+
+- name: ssl config
+  ansible.builtin.template:
+    src: filebeat.yml.j2
     dest: /etc/filebeat/filebeat.yml
-    mode: 0644
 
 - name: config vers logstash 1
   become: true
@@ -44,15 +50,3 @@
     state: started
     enabled: true
 
-- name: demande de certificat
-  ansible.builtin.import_role:
-    name: reqsign
-  vars:
-    cert_dir: "/etc/filebeat/certs"
-    type: "client"
-    convert: true
-
-- name: ssl config
-  ansible.builtin.template:
-    src: filebeat.yml.j2
-    dest: /etc/filebeat/filebeat.yml
