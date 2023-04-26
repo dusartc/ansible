@@ -60,7 +60,7 @@
       name: reqsign
       task_from: sign
       vars:
-        old_hosts: {{ ansible_play_hosts }}
+        old_hosts: "{{ ansible_play_hosts }}"
 
 # distribue les cert signes
 #- name: distribue les certs
