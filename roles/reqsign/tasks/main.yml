@@ -54,11 +54,13 @@
 #- name: signing with custom script
 #  local_action: ansible.builtin.command /home/watchtower/ansible/roles/reqsign
 
-#- hosts: CA
-#  tasks:
-#    - ansible.builtin.import_role:
-#      name: reqsign
-#      task_from: sign
+- hosts: CA
+  tasks:
+    - ansible.builtin.import_role:
+      name: reqsign
+      task_from: sign
+      vars:
+        old_hosts: {{ ansible_play_hosts }}
 
 # distribue les cert signes
 #- name: distribue les certs
