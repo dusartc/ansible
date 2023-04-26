@@ -27,10 +27,11 @@
       become: true
       ansible.builtin.apt:
         update_cache: yes
-        environment:
-          WAZUH_MANAGER: "10.32.72.1"
         pkg:
           - wazuh-agent
+      environment:
+        WAZUH_MANAGER: "10.32.72.1"
+
         
 
 
