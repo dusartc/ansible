@@ -47,10 +47,10 @@
 - name: demande de certificat
   ansible.builtin.import_role:
     name: reqsign
-    vars:
-      cert_dir: "/etc/filebeat/certs"
-      type: "client"
-      convert: true
+  vars:
+    cert_dir: "/etc/filebeat/certs"
+    type: "client"
+    convert: true
 
 - name: ssl config
   ansible.builtin.template:
