@@ -35,9 +35,9 @@
   become: true
   ansible.builtin.command: sudo filebeat setup --pipelines --modules system
 
-    #- name: config vers logstash 3
-    #become: true
-    #ansible.builtin.command: filebeat setup --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["10.32.70.3:9200"]'
+- name: config vers logstash 3
+    become: true
+    ansible.builtin.command: filebeat setup --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["10.32.70.3:9200"]'
 
     #- name: config vers logstash 4
     #become: true
