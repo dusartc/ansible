@@ -3,6 +3,7 @@
 # upload les csr
 - name: upload csr
   ansible.builtin.copy:
+  force: true
     src: "/tmp/{{ item }}/{{ cert_dir }}/{{ item }}-ansible.req"
     dest: "/tmp"
   loop: "{{ ansible_play_hosts }}"
