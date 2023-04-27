@@ -1,0 +1,4 @@
+# You can find this here : https://github.com/prometheus/snmp_exporter
+snmp_exporter_name: snmp_exporter-0.21.0.linux-amd64
+snmp_exporter_url: https://github.com/prometheus/snmp_exporter/releases/download/v0.21.0/snmp_exporter-0.21.0.linux-amd64.tar.gz
+snmp_exporter_checksum: sha256:c76a681d1c1e2dd0252b4229d6105c769d628bbde6c8bf82c5abbb07408ef039
