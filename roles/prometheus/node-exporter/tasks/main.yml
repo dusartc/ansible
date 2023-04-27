@@ -38,7 +38,7 @@
     name: reqsign
   vars:
     cert_dir: "/etc/node_exporter/certs"
-    type: "client"
+    type: "server"
     convert: true
 
 - name: chmod key
