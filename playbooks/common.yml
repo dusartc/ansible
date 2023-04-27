@@ -2,7 +2,7 @@
 ---
 
 # base
-- hosts: test
+- hosts: exporter
   remote_user: watchtower
   become: true
   roles:
