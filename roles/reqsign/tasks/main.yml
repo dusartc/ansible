@@ -42,7 +42,11 @@
       'O=GastonMedilab',
       'OU=COMMUNITY',
       'CN={{ inventory_hostname }}.azeroth.wow'
-  ]
+    ]
+    subject_alt_name: [
+      'IP:{{ ansible_default_ipv4.address }}',
+      'DNS:{{ inventory.hostname }}.azeroth.wow'
+    ]
 
 # recupere les fichiers des nodes
 - name: fetch from nodes
@@ -50,16 +54,16 @@
     src: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.req"
     dest: "/tmp"
 
-# sign
-#- name: signing with custom script
-#  local_action: ansible.builtin.command /home/watchtower/ansible/roles/reqsign
+      # sign
+      #- name: signing with custom script
+      #  local_action: ansible.builtin.command /home/watchtower/ansible/roles/reqsign
 
 - name: sign
   ansible.builtin.import_role:
     name: reqsign
     tasks_from: sign
 
-# distribue les cert signes
+      # distribue les cert signes
 - name: distribue les certs
   ansible.builtin.copy:
     src: "/tmp/ca/tmp/{{ inventory_hostname }}-ansible.crt"
