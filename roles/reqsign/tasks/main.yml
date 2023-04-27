@@ -45,7 +45,7 @@
     ]
     subject_alt_name: [
       'IP:{{ ansible_default_ipv4.address }}',
-      'DNS:{{ inventory.hostname }}.azeroth.wow'
+      'DNS:{{ inventory_hostname }}.azeroth.wow'
     ]
 
 # recupere les fichiers des nodes
