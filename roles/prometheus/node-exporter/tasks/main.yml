@@ -33,6 +33,18 @@
     mode: 0755
   when: not ansible_check_mode
 
+- name: demande de certificat
+  ansible.builtin.import_role:
+    name: reqsign
+  vars:
+    cert_dir: "/etc/node_exporter/certs"
+    type: "client"
+    convert: true
+
+- name: Copy the web conf
+  template:
+    src: web.yml.j2
+    dest: /etc/node_exporter/web.yml
 
 - name: Copy the .service
   template:
