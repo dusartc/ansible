@@ -21,6 +21,15 @@ scrape_configs:
 {% endfor %}
 
 
+  - job_name: 'win_exporter'
+    scrape_interval: 15s
+    static_configs:
+{% for win in win_exporter %}
+      - targets: ["{{ win.scrapeUrl }}"]
+        labels: 
+          instance: "{{ win.instance }}"
+{% endfor %}
+
 
 # Alertmanager configuration
 alerting:

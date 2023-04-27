@@ -26,4 +26,6 @@ node_exporter:
   - instance: bdd
     scrapeUrl: 10.32.43.1:9100
 
-
+win_exporter:
+  - instance: AD
+    scrapeUrl: 10.32.41.1:9182
