@@ -33,6 +33,7 @@
 # generate certificate signing request
 - name: generate csr
   community.crypto.openssl_csr:
+    force: true
     path: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.req"
     privatekey_path: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.key"
     subject_ordered: [

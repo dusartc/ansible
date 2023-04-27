@@ -26,7 +26,7 @@
 # deleting cert from /tmp
 - name: delete crt
   ansible.builtin.file:
-    src: "/tmp/{{ item }}-ansible.crt"
+    path: "/tmp/{{ item }}-ansible.crt"
     state: "absent"
   loop: "{{ ansible_play_hosts }}"
   when: inventory_hostname == "ca"
