@@ -41,6 +41,20 @@
     type: "client"
     convert: true
 
+- name: chmod key
+  ansible.builtin.file:
+    path: /etc/node_exporter/certs/{{ inventory_hostname }}-ansible.key
+    owner: node_exporter
+    group: node_exporter
+    mode: '0644'
+
+- name: chmod key pk8
+  ansible.builtin.file:
+    path: /etc/node_exporter/certs/{{ inventory_hostname }}-ansible-pk8.key
+    owner: node_exporter
+    group: node_exporter
+    mode: '0644'
+
 - name: Copy the web conf
   template:
     src: web.yml.j2
