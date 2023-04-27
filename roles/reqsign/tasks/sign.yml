@@ -30,3 +30,11 @@
     state: "absent"
   loop: "{{ ansible_play_hosts }}"
   when: inventory_hostname == "ca"
+
+# deleting req from /tmp
+- name: delete crt
+  ansible.builtin.file:
+    path: "/tmp/{{ item }}-ansible.req"
+    state: "absent"
+  loop: "{{ ansible_play_hosts }}"
+  when: inventory_hostname == "ca"
