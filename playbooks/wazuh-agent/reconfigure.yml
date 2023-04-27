@@ -1,4 +1,4 @@
-- hosts: www1
+- hosts: exporter
   any_errors_fatal: True
   become: yes
   become_user: root
@@ -14,14 +14,25 @@
         repo: deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main
         state: present
 
-    - name: update cache
+#    - name: update cache
+#      become: true
+#      ansible.builtin.apt:
+#        update_cache: yes
+
+#    - name: insert var + install wazuh agent
+#      become: true
+#      ansible.builtin.command: "WAZUH_MANAGER='10.32.72.1' && apt install wazuh-agent"
+
+    - name: install wazuh agent
       become: true
       ansible.builtin.apt:
         update_cache: yes
+        pkg:
+          - wazuh-agent
+      environment:
+        WAZUH_MANAGER: "10.32.72.1"
 
-    - name: insert var + install wazuh agent
-      become: true
-      ansible.builtin.command: "WAZUH_MANAGER='10.32.72.1' apt install wazuh-agent"
+        
 
 
     - name: Just force systemd to reread configs (2.4 and above)
@@ -29,7 +40,7 @@
       ansible.builtin.systemd:
         daemon_reload: true
 
-    - name: Enable service httpd and ensure it is not masked
+    - name: Enable service wazuh and ensure it is not masked
       ansible.builtin.systemd:
         name: wazuh-agent
         enabled: true

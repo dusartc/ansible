@@ -21,6 +21,31 @@ scrape_configs:
 {% endfor %}
 
 
+  - job_name: 'win_exporter'
+    scrape_interval: 15s
+    static_configs:
+{% for win in win_exporter %}
+      - targets: ["{{ win.scrapeUrl }}"]
+        labels: 
+          instance: "{{ win.instance }}"
+{% endfor %}
+
+  - job_name: 'snmp_exporter'
+    static_configs:
+      - targets:
+        - 10.32.99.254
+        - 10.32.99.250
+    metrics_path: /snmp
+    params:
+      module: [if_mib]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 127.0.0.1:9116  # The SNMP exporter's real hostname:port.
+
 
 # Alertmanager configuration
 alerting:

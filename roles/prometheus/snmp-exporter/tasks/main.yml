@@ -1,0 +1,59 @@
+
+- name: Add the group snmp_exporter
+  group:
+    name: snmp_exporter
+    state: present
+
+- name: Add the user snmp_exporter
+  user:
+    name: snmp_exporter
+    state: present
+    comment: snmp Exporter user
+    group: snmp_exporter
+
+- name: Create the snmp folder
+  file:
+    path: /etc/prometheus/snmp-exporter
+    state: directory
+
+- name: Download file with checksum url (sha256)
+  get_url:
+    url: "{{ snmp_exporter_url }}"
+    dest: /tmp/{{ snmp_exporter_name }}.tar.gz
+    checksum: "{{ snmp_exporter_checksum }}"
+
+- name: Unarchive the file
+  unarchive:
+    src: /tmp/{{ snmp_exporter_name }}.tar.gz
+    dest: /tmp
+    remote_src: yes
+  when: not ansible_check_mode
+
+- name: Copy the executable in /usr/local/bin
+  copy:
+    src: /tmp/{{ snmp_exporter_name }}/snmp_exporter
+    dest: /usr/sbin/snmp_exporter
+    remote_src: yes
+    mode: 0755
+  when: not ansible_check_mode
+
+- name: Copy the snmp conf
+  template:
+    src: snmp.yml.j2
+    dest: /etc/prometheus/snmp-exporter/snmp.yml
+
+- name: Copy the .service
+  template:
+    src: snmp_exporter.service.j2
+    dest: /etc/systemd/system/snmp_exporter.service
+
+- name: Enable the service
+  systemd:
+    name: snmp_exporter.service
+    enabled: yes
+    daemon_reload: yes
+  
+- name: Start the service
+  systemd:
+    name: snmp_exporter.service
+    state: restarted

@@ -26,4 +26,12 @@ node_exporter:
   - instance: bdd
     scrapeUrl: 10.32.43.1:9100
 
+win_exporter:
+  - instance: AD
+    scrapeUrl: 10.32.41.1:9182
 
+  - instance: ADnoUI
+    scrapeUrl: 10.32.41.2:9182
+
+  - instance: VEEAM
+    scrapeUrl: 10.32.41.50:9182
