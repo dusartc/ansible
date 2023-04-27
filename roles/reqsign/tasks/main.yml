@@ -64,3 +64,4 @@
   ansible.builtin.copy:
     src: "/tmp/ca/tmp/{{ inventory_hostname }}-ansible.crt"
     dest: "{{ cert_dir }}/{{ inventory_hostname }}-ansible.crt"
+    mode: "0644"
