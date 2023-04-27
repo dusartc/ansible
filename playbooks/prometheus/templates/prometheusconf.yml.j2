@@ -15,7 +15,7 @@ scrape_configs:
     scrape_interval: 15s
     scheme: https
     tls_config:
-      ca_file: /etc/prometheus/{{ prometheus_name }}/certs/prometheus.crt
+      ca_file: /usr/local/share/ca-certificates/gaston.medilab.crt
     static_configs:
 {% for node in node_exporter %}
       - targets: ["{{ node.scrapeUrl }}"]
