@@ -1,0 +1,59 @@
+
+- name: Add the group blackbox_exporter
+  group:
+    name: blackbox_exporter
+    state: present
+
+- name: Add the user blackbox_exporter
+  user:
+    name: blackbox_exporter
+    state: present
+    comment: blackbox Exporter user
+    group: blackbox_exporter
+
+- name: Create the blackbox folder
+  file:
+    path: /etc/prometheus/blackbox-exporter
+    state: directory
+
+- name: Download file with checksum url (sha256)
+  get_url:
+    url: "{{ blackbox_exporter_url }}"
+    dest: /tmp/{{ blackbox_exporter_name }}.tar.gz
+    checksum: "{{ blackbox_exporter_checksum }}"
+
+- name: Unarchive the file
+  unarchive:
+    src: /tmp/{{ blackbox_exporter_name }}.tar.gz
+    dest: /tmp
+    remote_src: yes
+  when: not ansible_check_mode
+
+- name: Copy the executable in /usr/sbin
+  copy:
+    src: /tmp/{{ blackbox_exporter_name }}/blackbox_exporter
+    dest: /usr/sbin/blackbox_exporter
+    remote_src: yes
+    mode: 0755
+  when: not ansible_check_mode
+
+- name: Copy the blackbox conf
+  template:
+    src: blackbox.yml.j2
+    dest: /etc/prometheus/blackbox-exporter/blackbox.yml
+
+- name: Copy the .service
+  template:
+    src: blackbox_exporter.service.j2
+    dest: /etc/systemd/system/blackbox_exporter.service
+
+- name: Enable the service
+  systemd:
+    name: blackbox_exporter.service
+    enabled: yes
+    daemon_reload: yes
+  
+- name: Start the service
+  systemd:
+    name: blackbox_exporter.service
+    state: restarted

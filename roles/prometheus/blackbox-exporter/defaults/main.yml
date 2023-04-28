@@ -1,0 +1,4 @@
+# You can find this here : https://github.com/prometheus/blackbox_exporter
+snmp_exporter_name: blackbox_exporter-0.23.0.linux-amd64
+snmp_exporter_url: https://github.com/prometheus/blackbox_exporter/releases/download/v0.23.0/blackbox_exporter-0.23.0.linux-amd64.tar.gz
+snmp_exporter_checksum: sha256:63bd4fde6984db79c95e1502a0ab47da6194d763bff22a04d1f50c4fd8322b84

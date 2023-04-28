@@ -1,0 +1,10 @@
+# Install base exporter
+---
+
+# base
+- hosts: 10.32.71.1
+  remote_user: watchtower
+  become: true
+  roles:
+          - prometheus/blackbox-exporter
+#          - prometheus/snmp-exporter
