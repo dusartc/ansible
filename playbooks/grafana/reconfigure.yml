@@ -35,6 +35,12 @@
         src: grafana.ini.j2
         dest: /etc/grafana/grafana.ini
 
+    - name: Copy the config ldap
+      become: true
+      template:
+        src: ldap.toml.j2
+        dest: /etc/grafana/ldap.toml
+
     - name: restart grafana
       become: true
       ansible.builtin.service:

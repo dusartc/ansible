@@ -692,9 +692,9 @@ cert_key = /etc/grafana/certs/grafana.key
 
 #################################### Auth LDAP ##########################
 [auth.ldap]
-;enabled = true
-;config_file = /etc/grafana/ldap.toml
-;allow_sign_up = true
+enabled = true
+config_file = /etc/grafana/ldap.toml
+allow_sign_up = false
 # prevent synchronizing ldap users organization roles
 ;skip_org_role_sync = false
 
