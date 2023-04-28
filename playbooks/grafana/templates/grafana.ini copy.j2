@@ -32,7 +32,7 @@
 #################################### Server ####################################
 [server]
 # Protocol (http, https, h2, socket)
-protocol = https
+;protocol = http
 
 # The ip address to bind to, empty will bind to all interfaces
 ;http_addr =
@@ -41,7 +41,7 @@ protocol = https
 ;http_port = 3000
 
 # The public facing domain name used to access grafana from a browser
-domain = azeroth.wow
+;domain = localhost
 
 # Redirect to correct domain if host header does not match domain
 # Prevents DNS rebinding attacks
@@ -64,8 +64,8 @@ domain = azeroth.wow
 ;enable_gzip = false
 
 # https certs & key file
-cert_file = /etc/grafana/certs/grafana.crt
-cert_key = /etc/grafana/certs/grafana.key
+;cert_file =
+;cert_key =
 
 # Unix socket gid
 # Changing the gid of a file without privileges requires that the target group is in the group of the process and that the process is the file owner
