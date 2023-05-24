@@ -8,6 +8,5 @@
   roles:
 #          - common
           - prometheus/node-exporter
-#          - prometheus/snmp-exporter
 #          - ssh
 #          - elk
