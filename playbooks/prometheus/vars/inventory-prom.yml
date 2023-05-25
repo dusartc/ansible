@@ -5,8 +5,8 @@ node_exporter:
 #  - instance: ansible
 #    scrapeUrl: 10.32.41.70:9100
 
-#  - instance: prometheus
-#    scrapeUrl: 10.32.70.2:9100
+  - instance: bastion
+    scrapeUrl: 10.32.10.1:9100
 
   - instance: elk
     scrapeUrl: 10.32.70.3:9100

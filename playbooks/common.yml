@@ -2,7 +2,7 @@
 ---
 
 # base
-- hosts: 10.32.10.1
+- hosts: bastion
   remote_user: watchtower
   become: true
   roles:
