@@ -2,7 +2,7 @@
 ---
 
 # base
-- hosts: exporter
+- hosts: 10.32.10.1
   remote_user: watchtower
   become: true
   roles:
