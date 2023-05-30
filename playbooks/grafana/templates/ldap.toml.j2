@@ -6,10 +6,10 @@ port = 389
 # Set to true if LDAP server supports TLS
 use_ssl = false
 
-bind_dn = "CN=l dap,OU=ADMINS,DC=AZEROTH,DC=WOW"
-bind_password = "Leeroyjenkins59!"
+bind_dn = "CN=%s,OU=ADMINS,DC=AZEROTH,DC=WOW"
+#bind_password = "Leeroyjenkins59!"
 
-search_filter = "(uid=%s)"
+search_filter = "(cn=%s)"
 
 search_base_dns = ["ou=ADMINS,dc=azeroth,dc=wow"]
 #group_search_base_dns = ["ou=GastonMediLab,dc=azeroth,dc=wow"]
